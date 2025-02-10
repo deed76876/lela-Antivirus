@@ -11,3 +11,11 @@ An antivirus program is a software designed to detect, prevent, and remove malic
 - **Virus Removal**: Identifies and removes malware from your system.
 - **Updates**: Regularly updates its virus definitions to protect against new threats.
 
+# lela-Antivirus
+
+## Version
+- Current Version: 1.0.0
+
+## Dependencies
+- Python 3.x
+- libraries: requests, numpy, pandas
