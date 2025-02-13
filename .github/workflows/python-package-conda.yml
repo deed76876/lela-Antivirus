@@ -1,0 +1,56 @@
+name: Python Package using Conda
+
+on: [push]
+
+jobs:
+  build-linux:
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 5
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v3
+      with:
+        python-version: '3.10'
+    - name: Add conda to system path
+      run: |
+        # $CONDA is an environment variable pointing to the root of the miniconda directory
+        echo $CONDA/bin >> $GITHUB_PATH
+    - name: Install dependencies
+      run: |
+        conda env update --file environment.yml --name base
+    - name: Lint with flake8
+      run: |
+        conda install flake8
+        # stop the build if there are Python syntax errors or undefined names
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
+        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+    - name: Test with pytest
+      run: |
+        conda install pytest
+        pytest
+            - name: CodeQL Scan Action
+  # You may pin to the exact commit or the version.
+  # uses: tonys-code-base/run-codeql-analysis-action@775b3f1cc0b55a35e53f2b0f32363c4c7e3984f7
+  uses: tonys-code-base/run-codeql-analysis-action@v0.1.0
+  with:
+    # Git ref to be analyzed
+    git_ref: # optional, default is ${{ github.ref }}
+    # Commit SHA
+    commit_sha: # optional, default is ${{ github.sha }}
+    # The source language(s) to carry out the scan against. Example, - to scan for a single language (such as python): "python". - to scan multiple languages (such as python and javascript): "python,javascript" 
+    language_to_scan: 
+    # GitHub token
+    token: 
+    # Query suite to use for the analysis https://docs.github.com/en/code-security/codeql-cli/codeql-cli-manual/database-analyze#querysuitepack 
+    codeql_scan_type: # optional, default is code-scanning
+    # Build mode to use for creating the CodeQL DB. Used for compiled languages https://docs.github.com/en/code-security/codeql-cli/codeql-cli-manual/database-create#--build-modemode 
+    build_mode: # optional, default is 
+    # Used for compiled languages. Build command or script that invokes the build process for the codebase https://docs.github.com/en/code-security/codeql-cli/codeql-cli-manual/database-create#-c---commandcommand 
+    build_command: # optional, default is 
+    # Path to CodeQL code scanning configuration file https://docs.github.com/en/code-security/codeql-cli/codeql-cli-manual/database-create#--codescanning-configfile 
+    codeql_config_file: # optional, default is 
+          
