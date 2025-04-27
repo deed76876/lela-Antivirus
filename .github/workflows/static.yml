@@ -31,11 +31,26 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Setup Pages
+      - name:  setup page
         uses: actions/configure-pages@v5
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
+
+        # Simple workflow for deploying static content to
+     ```
+
+3. **Test Deployment**:
+   - Push a new commit to the `main` branch or manually trigger the workflow GitHub Pages
+name: Deploy static content to Pages
+
+ using the "Run workflow" button on the Actions page.
+
+4. **Update Workflow for Debugging (Optionalon:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
           # Upload entire repository
           path: '.'
       - name: Deploy to GitHub Pages
